@@ -1,0 +1,19 @@
+resources:
+- repo: self
+pr:
+- master
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+variables:
+- group: Packer-Vars
+
+steps:
+- task: PackerBuild@1   
+  inputs:
+    templateType: 'custom'
+    customTemplateLocation: '$(System.DefaultWorkingDirectory)/windows.json'
+    customTemplateParameters: '{"client_id":"$(client-id)","client_secret":"$(client-secret)","tenant_id":"$(tenant-id)","subscription_id":"$(subscription-id)","managed_image_resource_group_name":"$(managed-image-resource-group-name)","managed_image_name":"$(managed-image-name)"}'
+    imageUri: 'imageURL'
+    imageId: 'imageResourceID'
